@@ -23,9 +23,9 @@ public class Main extends Application {
         IRepository<Car> carIRepository= new CarRepository<>(carValidator, "car.json", Car[].class);
 
         CarService carService = new CarService(carIRepository);
-        carService.add("1", 100, "1 2 3", "20.01.2019");
-        carService.add("2", 200, "e e e", "21.02.2019");
-        carService.add("3", 300, "c c c", "22.03.2019");
+        carService.add("1", "abs", 20, 50);
+        carService.add("2", "max", 30, 10);
+        carService.add("3", "sdf", 50, 100);
 
         controller.setServices(carService);
 
