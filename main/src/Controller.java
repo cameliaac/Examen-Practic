@@ -16,36 +16,36 @@ import sun.security.pkcs11.wrapper.CK_ATTRIBUTE;
 public class Controller {
     public TableView tableViewCars;
     public TableColumn tableColumnId;
-    public TableColumn tableColumnSum;
-    public TableColumn tableColumnDescription;
-    public TableColumn tableColumnDate;
+    public TableColumn tableColumnModel;
+    public TableColumn tableColumnKm;
+    public TableColumn tableColumnPret;
     public TextField txtId;
-    public TextField txtSum;
-    public TextField txtDescription;
-    public TextField txtDate;
+    public TextField txtModel;
+    public TextField txtKm;
+    public TextField txtPret;
     public Button btnAdd;
-    public TextField txtSumDay;
-    public TextField txtSumResult;
+    public TextField txtCarIncome;
+    public TextField txtCarMileage;
     public Button btnSumForDay;
 
-    private CarService invoiceService;
-    private ObservableList<Car> invoices = FXCollections.observableArrayList();
+    private CarService carService;
+    private ObservableList<Car> cars = FXCollections.observableArrayList();
 
     public void btnAddClick(ActionEvent actionEvent) {
         try {
             String id = txtId.getText();
-            double sum = Double.parseDouble(txtSum.getText());
-            String description = txtDescription.getText();
-            String date = txtDate.getText();
-            invoiceService.add(id, sum, description, date);
+            double income = Double.parseDouble(txtCarIncome.getText());
+            String Model = txtModel.getText();
+            String km = txtKm.getText();
+            carService.add(id, model, km, pret);
 
             txtId.clear();
             txtSum.clear();
             txtDescription.clear();
             txtDate.clear();
 
-            invoices.clear();
-            invoices.addAll(invoiceService.getAll());
+            cars.clear();
+            cars.addAll(carService.getAll());
 
         } catch (CarDateFormatException idfe) {
             Common.showValidationError(idfe.getMessage());
@@ -54,25 +54,24 @@ public class Controller {
         }
     }
 
-    public void setServices(CarService invoiceService) {
-        this.invoiceService = invoiceService;
+    public void setServices(CarService carService) {
+        this.carService = carService;
     }
 
     @FXML
     private void initialize() {
 
         Platform.runLater(() -> {
-            invoices.addAll(invoiceService.getAll());
-            tableViewCars.setItems(invoices);
+            cars.addAll(carService.getAll());
+            tableViewCars.setItems(cars);
         });
     }
 
     public void btnSumForDayClick(ActionEvent actionEvent) {
         try {
-            String date = txtSumDay.getText();
-            double sum = invoiceService.getDaySum(date);
+            String date = txtCarIncome.getText();
+            double sum = carService.getCarIncome(date);
             txtSumResult.setText(String.valueOf(sum));
-        } catch (CarDateFormatException idfe) {
             Common.showValidationError(idfe.getMessage());
         }
     }
